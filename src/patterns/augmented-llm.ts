@@ -12,12 +12,13 @@ export function getAugmentedLLMPattern(): PatternConfig {
   "name": "{{PROJECT_NAME}}",
   "version": "1.0.0",
   "description": "{{PROJECT_DESCRIPTION}}",
+  "type": "module",
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc",
     "dev": "tsx src/index.ts",
     "start": "node dist/index.js",
-    "test": "jest",
+    "test": "node --experimental-vm-modules node_modules/.bin/jest",
     "lint": "eslint src --ext .ts",
     "typecheck": "tsc --noEmit"
   },
@@ -48,17 +49,19 @@ export function getAugmentedLLMPattern(): PatternConfig {
         content: `{
   "compilerOptions": {
     "target": "ES2022",
-    "module": "CommonJS",
+    "module": "ESNext",
     "lib": ["ES2022"],
     "outDir": "./dist",
     "rootDir": "./src",
     "strict": true,
     "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
     "declaration": true,
-    "sourceMap": true
+    "sourceMap": true,
+    "moduleResolution": "node"
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "dist"]
@@ -148,7 +151,7 @@ async function main() {
   }
 }
 
-if (require.main === module) {
+if (import.meta.url === \`file://\${process.argv[1]}\`) {
   main();
 }
 
@@ -660,26 +663,20 @@ OPENAI_MAX_TOKENS=2000
       // Jest configuration
       {
         path: 'jest.config.js',
-        content: `module.exports = {
-  preset: 'ts-jest',
+        content: `export default {
+  preset: 'ts-jest/presets/default-esm',
   testEnvironment: 'node',
   roots: ['<rootDir>/src'],
   testMatch: ['**/__tests__/**/*.ts', '**/?(*.)+(spec|test).ts'],
   transform: {
-    '^.+\\.ts$': 'ts-jest',
+    '^.+\\.ts$': ['ts-jest', {
+      useESM: true
+    }],
   },
   transformIgnorePatterns: [
-    'node_modules/(?!@openai/agents)'
+    'node_modules/(?!(@openai/agents|@openai/agents-core)/)'
   ],
   extensionsToTreatAsEsm: ['.ts'],
-  globals: {
-    'ts-jest': {
-      useESM: true
-    }
-  },
-  moduleNameMapping: {
-    '^@openai/agents$': '<rootDir>/node_modules/@openai/agents/dist/index.js'
-  },
   collectCoverageFrom: [
     'src/**/*.ts',
     '!src/**/*.d.ts',

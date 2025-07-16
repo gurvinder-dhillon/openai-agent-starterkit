@@ -45,7 +45,7 @@
     "clean": "rm -rf dist",
     "prepublishOnly": "npm run clean && npm run build && npm run test",
     "test:generate": "node dist/cli.js --pattern augmented-llm --name test-project --output ./test-output",
-    "test:integration": "cd test-output/test-project && npm test"
+    "test:integration": "cd test-output && npm test"
   },
   "dependencies": {
     "@openai/agents": "^0.0.11",
@@ -54,18 +54,19 @@
     "zod": "<=3.25.67"
   },
   "devDependencies": {
+    "@eslint/js": "^9.31.0",
     "@types/inquirer": "^9.0.0",
     "@types/node": "^20.0.0",
-    "@typescript-eslint/eslint-plugin": "^6.0.0",
-    "@typescript-eslint/parser": "^6.0.0",
+    "@typescript-eslint/eslint-plugin": "^7.18.0",
+    "@typescript-eslint/parser": "^7.18.0",
     "@vitest/coverage-v8": "^1.0.0",
-    "eslint": "^8.0.0",
-    "typescript": "^5.0.0",
+    "eslint": "^8.57.1",
+    "typescript": ">=4.7.4 <5.6.0",
     "vite": "^5.0.0",
     "vitest": "^1.0.0"
   },
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=20.0.0"
   },
   "publishConfig": {
     "access": "public"
