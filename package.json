@@ -1,0 +1,73 @@
+{
+  "name": "openai-agent-starterkit",
+  "version": "1.0.0",
+  "description": "A starter kit for building single and multi-agent systems using OpenAI Agent JavaScript SDK",
+  "keywords": [
+    "openai",
+    "agents",
+    "ai",
+    "starterkit",
+    "cli",
+    "typescript",
+    "anthropic",
+    "patterns"
+  ],
+  "author": "OpenAI Agent StarterKit Team",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-org/openai-agent-starterkit.git"
+  },
+  "bugs": {
+    "url": "https://github.com/your-org/openai-agent-starterkit/issues"
+  },
+  "homepage": "https://github.com/your-org/openai-agent-starterkit#readme",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "bin": {
+    "openai-agent-starterkit": "dist/cli.js"
+  },
+  "files": [
+    "dist",
+    "templates",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "vite build",
+    "dev": "vite build --watch",
+    "test": "vitest",
+    "test:watch": "vitest --watch",
+    "test:coverage": "vitest --coverage",
+    "lint": "eslint src --ext .ts,.tsx",
+    "lint:fix": "eslint src --ext .ts,.tsx --fix",
+    "typecheck": "tsc --noEmit",
+    "clean": "rm -rf dist",
+    "prepublishOnly": "npm run clean && npm run build && npm run test",
+    "test:generate": "node dist/cli.js --pattern augmented-llm --name test-project --output ./test-output",
+    "test:integration": "cd test-output/test-project && npm test"
+  },
+  "dependencies": {
+    "@openai/agents": "^0.0.11",
+    "commander": "^12.0.0",
+    "inquirer": "^9.2.0",
+    "zod": "<=3.25.67"
+  },
+  "devDependencies": {
+    "@types/inquirer": "^9.0.0",
+    "@types/node": "^20.0.0",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "@vitest/coverage-v8": "^1.0.0",
+    "eslint": "^8.0.0",
+    "typescript": "^5.0.0",
+    "vite": "^5.0.0",
+    "vitest": "^1.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

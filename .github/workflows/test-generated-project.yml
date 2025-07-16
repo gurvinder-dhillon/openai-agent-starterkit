@@ -1,0 +1,54 @@
+name: Test Generated Project
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+  schedule:
+    # Run daily at 2 AM UTC
+    - cron: '0 2 * * *'
+
+jobs:
+  test-generated-project:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        pattern: [augmented-llm]
+        node-version: [18.x, 20.x]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+
+      - name: Install starter kit dependencies
+        run: npm ci
+
+      - name: Build starter kit
+        run: npm run build
+
+      - name: Generate test project
+        run: |
+          node dist/cli.js --pattern ${{ matrix.pattern }} --name test-${{ matrix.pattern }} --output ./test-projects/test-${{ matrix.pattern }}
+
+      - name: Test generated project
+        run: |
+          cd test-projects/test-${{ matrix.pattern }}
+          npm install
+          npm run lint
+          npm run typecheck
+          npm run build
+          npm run test
+
+      - name: Upload test project artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-project-${{ matrix.pattern }}-node-${{ matrix.node-version }}
+          path: test-projects/test-${{ matrix.pattern }}/
+          retention-days: 7
