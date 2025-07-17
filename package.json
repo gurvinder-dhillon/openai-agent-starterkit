@@ -1,6 +1,6 @@
 {
   "name": "openai-agent-starterkit",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A starter kit for building single and multi-agent systems using OpenAI Agent JavaScript SDK",
   "keywords": [
     "openai",
