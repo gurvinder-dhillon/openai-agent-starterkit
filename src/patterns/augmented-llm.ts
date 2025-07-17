@@ -62,7 +62,7 @@ export function getAugmentedLLMPattern(): PatternConfig {
     "resolveJsonModule": true,
     "declaration": true,
     "sourceMap": true,
-    "moduleResolution": "node"
+    "moduleResolution": "bundler"
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "dist"]
@@ -86,13 +86,13 @@ if (!process.env.OPENAI_API_KEY) {
 }
 
 import { Agent, run } from '@openai/agents';
-import { webSearchTool } from './tools/web-search';
-import { readFileTool, writeFileTool, checkFileExistsTool } from './tools/file-system';
-import { calculatorTool } from './tools/calculator';
-import { storeMemoryTool, retrieveMemoryTool, listMemoryTool } from './tools/memory';
-import { inputGuardrail } from './guardrails/input';
-import { outputGuardrail } from './guardrails/output';
-import { AgentContext } from './context/types';
+import { webSearchTool } from './tools/web-search.js';
+import { readFileTool, writeFileTool, checkFileExistsTool } from './tools/file-system.js';
+import { calculatorTool } from './tools/calculator.js';
+import { storeMemoryTool, retrieveMemoryTool, listMemoryTool } from './tools/memory.js';
+import { inputGuardrail } from './guardrails/input.js';
+import { outputGuardrail } from './guardrails/output.js';
+import { AgentContext } from './context/types.js';
 
 const agent = new Agent<AgentContext>({
   name: 'Augmented Research Assistant',
@@ -340,7 +340,7 @@ export const calculatorTool = tool({
         path: 'src/tools/memory.ts',
         content: `import { tool } from '@openai/agents';
 import { z } from 'zod';
-import { AgentContext } from '../context/types';
+import { AgentContext } from '../context/types.js';
 
 export const storeMemoryTool = tool({
   name: 'store_memory',
