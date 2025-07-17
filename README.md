@@ -26,8 +26,9 @@ cd my-agent
 # Install dependencies
 npm install
 
-# Set up your OpenAI API key
-export OPENAI_API_KEY="your-api-key-here"
+# Set up your OpenAI API key in the .env file
+# Edit the .env file and add your actual API key
+OPENAI_API_KEY=your-actual-openai-api-key-here
 
 # Run your agent
 npm run dev

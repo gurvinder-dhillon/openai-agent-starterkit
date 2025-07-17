@@ -24,6 +24,7 @@ export function getAugmentedLLMPattern(): PatternConfig {
   },
   "dependencies": {
     "@openai/agents": "^0.0.11",
+    "dotenv": "^16.0.0",
     "zod": "<=3.25.67"
   },
   "devDependencies": {
@@ -71,7 +72,20 @@ export function getAugmentedLLMPattern(): PatternConfig {
       // Main agent implementation
       {
         path: 'src/index.ts',
-        content: `import { Agent, run } from '@openai/agents';
+        content: `import dotenv from 'dotenv';
+
+// Load environment variables from .env file
+dotenv.config();
+
+// Validate required environment variables
+if (!process.env.OPENAI_API_KEY) {
+  console.error('❌ Error: OPENAI_API_KEY is not set');
+  console.error('Please create a .env file with your OpenAI API key:');
+  console.error('OPENAI_API_KEY=your-api-key-here');
+  process.exit(1);
+}
+
+import { Agent, run } from '@openai/agents';
 import { webSearchTool } from './tools/web-search';
 import { readFileTool, writeFileTool, checkFileExistsTool } from './tools/file-system';
 import { calculatorTool } from './tools/calculator';
@@ -544,9 +558,10 @@ An Augmented LLM agent built with the OpenAI Agents SDK. This agent demonstrates
    npm install
    \`\`\`
 
-2. Set up your OpenAI API key:
+2. Set up your OpenAI API key in the \`.env\` file:
    \`\`\`bash
-   export OPENAI_API_KEY="your-api-key-here"
+   # Edit the .env file and replace with your actual API key
+   OPENAI_API_KEY=your-actual-openai-api-key-here
    \`\`\`
 
 3. Run the agent:
@@ -611,6 +626,19 @@ This project follows the Augmented LLM pattern, which enhances a base LLM with:
 ## License
 
 MIT
+`,
+      },
+
+      // Default .env file
+      {
+        path: '.env',
+        content: `# OpenAI API Configuration
+OPENAI_API_KEY=your-openai-api-key-here
+
+# Optional: Customize model settings
+OPENAI_MODEL=gpt-4
+OPENAI_TEMPERATURE=0.7
+OPENAI_MAX_TOKENS=2000
 `,
       },
 
