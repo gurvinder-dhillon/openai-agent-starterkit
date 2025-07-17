@@ -722,13 +722,20 @@ export default [
   testMatch: ['**/__tests__/**/*.ts', '**/?(*.)+(spec|test).ts'],
   transform: {
     '^.+\\.ts$': ['ts-jest', {
-      useESM: true
+      useESM: true,
+      tsconfig: {
+        moduleResolution: 'bundler'
+      }
     }],
   },
   transformIgnorePatterns: [
     'node_modules/(?!(@openai/agents|@openai/agents-core)/)'
   ],
   extensionsToTreatAsEsm: ['.ts'],
+  moduleNameMapper: {
+    '^(\\.{1,2}/.*)\\.js$': '$1.ts',
+  },
+  resolver: '<rootDir>/jest.resolver.js',
   collectCoverageFrom: [
     'src/**/*.ts',
     '!src/**/*.d.ts',
@@ -738,11 +745,27 @@ export default [
   coverageReporters: ['text', 'lcov'],
 };`,
       },
+      // Jest resolver
+      {
+        path: 'jest.resolver.js',
+        content: `export default function(request, options) {
+  // Map .js imports to .ts files for Jest
+  if (request.endsWith('.js') && request.startsWith('.')) {
+    const tsFile = request.replace(/\\.js$/, '.ts');
+    return options.defaultResolver(tsFile, options);
+  }
+  
+  return options.defaultResolver(request, options);
+}`,
+      },
 
       // Basic test
       {
         path: 'src/tests/agent.test.ts',
-        content: `import { agent } from '../index';
+        content: `// Mock environment variables before importing
+process.env.OPENAI_API_KEY = 'test-api-key';
+
+import { agent } from '../index';
 
 describe('Augmented LLM Agent', () => {
   it('should initialize successfully', () => {
