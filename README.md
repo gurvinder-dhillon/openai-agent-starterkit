@@ -74,12 +74,15 @@ npx openai-agent-starterkit --pattern <pattern> --name <project-name>
 ```
 my-agent-project/
 ├── src/
-│   ├── index.ts              # Main agent entry point
+│   ├── index.ts              # Main entry point
+│   ├── agents/               # Agent implementations
+│   │   └── research-assistant.ts  # Main research agent
 │   ├── tools/                # Tool implementations
 │   │   ├── web-search.ts     # Web search capability
 │   │   ├── file-system.ts    # File operations
 │   │   ├── calculator.ts     # Mathematical operations
 │   │   └── memory.ts         # Context management
+│   ├── mcp-servers/          # MCP server implementations
 │   ├── guardrails/           # Input/output validation
 │   │   ├── input.ts          # Input validation
 │   │   └── output.ts         # Output validation

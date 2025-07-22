@@ -1,7 +1,7 @@
 import { writeFileSync, mkdirSync, existsSync } from 'fs';
 import { join, dirname } from 'path';
 import { ProjectOptions, PatternConfig } from './types';
-import { getAugmentedLLMPattern } from './patterns/augmented-llm';
+import { getAugmentedLLMPattern } from './patterns/augmented-llm/index.js';
 
 export async function generateProject(options: ProjectOptions): Promise<void> {
   const { pattern, name, outputPath } = options;

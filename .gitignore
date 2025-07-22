@@ -25,8 +25,11 @@ references/
 .DS_Store
 Thumbs.db
 
-# Test output
+# Test output and directories (prevent accidental commits)
 test-output/
+test-*/
+*-test/
+testing/
 coverage/
 
 # Logs
