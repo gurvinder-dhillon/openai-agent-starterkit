@@ -12,16 +12,16 @@
     "anthropic",
     "patterns"
   ],
-  "author": "OpenAI Agent StarterKit Team",
+  "author": "Gurvinder Dhillon",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/your-org/openai-agent-starterkit.git"
+    "url": "https://github.com/gurvinder-dhillon/openai-agent-starterkit.git"
   },
   "bugs": {
-    "url": "https://github.com/your-org/openai-agent-starterkit/issues"
+    "url": "https://github.com/gurvinder-dhillon/openai-agent-starterkit/issues"
   },
-  "homepage": "https://github.com/your-org/openai-agent-starterkit#readme",
+  "homepage": "https://github.com/gurvinder-dhillon/openai-agent-starterkit#readme",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "bin": {
@@ -29,7 +29,6 @@
   },
   "files": [
     "dist",
-    "templates",
     "README.md",
     "LICENSE"
   ],
